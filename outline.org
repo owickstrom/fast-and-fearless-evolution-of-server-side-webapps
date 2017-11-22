@@ -1,0 +1,84 @@
+#+TITLE: Fast and Fearless Evolution of Server-Side Web Applications
+
+* Abstract
+
+When evolving web applications, in most programming languages and
+frameworks, we risk introducing programming errors. Undefined values,
+parsing failures, broken links, invalid markup, and good old null
+pointers, are all things that can break our applications. Manually
+writing and maintaining tests to catch programming errors is a time
+consuming effort, and we would rather spend that time testing our
+application logic. This talk takes you on a whirlwind tour of mature
+technologies that offer static guarantees for modern web applications.
+
+* Key Points
+
+- Introduction
+  - Reasons for change
+    - New features
+    - Bug fixes
+    - Refactorings
+    - External factors (regulation, deprecations)
+  - Deadlines
+  - Risk
+    - Delay
+    - Error
+    - Burnout
+  - Fast feedback!
+- Web applications
+  - Many of us work with them
+  - The buzz: SPAs and frameworks
+    - More like desktop apps
+    - Reinventing the browser
+    - No JS, no page
+  - Server-side apps
+    - Progressive enhancement
+    - 80/20 rule
+  - "Isomorphic" webapps
+  - PJAX
+- Newer /= Better
+- Static Typing for Server-side web
+  - Compile-time guarantees
+  - Safely evolvable code
+  - Focus your tests on your domain
+  - (Examples of functional statically typed language web frameworks)
+- Haskell and server-side web
+  - WAI
+    - Interface
+    - Streaming
+    - Middleware
+  - Warp
+    - Web server
+    - Fast
+  - Frameworks/libraries
+    - Scotty
+      - Compare to Sinatra?
+      - Build-your-own-setup
+    - Yesod
+      - Routing
+      - Templates
+      - Forms
+      - Persistent
+      - Widgets
+        - TypeScript
+    - (Happstack, Snap)
+    - Airship
+    - Servant
+    - MFlow
+  - Libraries
+    - Markup
+      - Blaze HTML
+      - Lucid
+    - CSS
+      - Lucius
+      - Cassius
+      - Clay
+    - Amazonka
+  - Deployment
+    - Heroku/Halcyon
+    - AWS Elastic Beanstalk + Docker
+    - Others?
+- If you need client-side code
+  - Elm, PureScript, GHCJS
+  - Servant
+  - purescript-bridge
