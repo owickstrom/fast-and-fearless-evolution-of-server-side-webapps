@@ -1,0 +1,138 @@
+\usepackage{tikz}
+\usepackage{setspace}
+\setstretch{1.5}
+
+\usepackage{adjustbox}
+
+\definecolor{linkcolor}{HTML}{5200FF}
+\definecolor{topbarcolor}{HTML}{E81C4F}
+\definecolor{sectionbg}{HTML}{5200FF}
+\definecolor{textcolor}{HTML}{111111}
+\definecolor{darkgray}{HTML}{666666}
+\definecolor{mediumgray}{HTML}{888888}
+\definecolor{dimgray}{HTML}{BBBBBB}
+
+\setbeamercolor{alerted text}{fg=black}
+\setbeamerfont{alerted text}{series=\bfseries}
+
+%\beamerdefaultoverlayspecification{<+->}
+
+\usepackage{etoolbox}
+\usepackage{pgfpages}
+
+\usepackage[T1]{fontenc}
+\usepackage[sfdefault]{noto}
+\usepackage[scaled=1.15]{inconsolata}
+
+
+\usepackage{array}
+\usepackage{booktabs}
+
+\beamertemplatenavigationsymbolsempty
+
+\setbeamersize{text margin left=0.5cm,text margin right=0.5cm}
+\setbeamercolor{normal text}{fg=textcolor}
+\setbeamercolor{structure}{fg=textcolor}
+\setbeamercolor{button}{fg=textcolor}
+
+\setbeamercolor{frametitle}{fg=white,bg=topbarcolor}
+\setbeamerfont{frametitle}{size=\fontsize{12pt}{12pt}}
+\addtobeamertemplate{frametitle}{\vskip-0.5ex}{}
+
+\setbeamercolor{title page}{bg=sectionbg}
+\setbeamercolor{headline}{fg=white}
+\setbeamerfont{title}{size=\fontsize{24pt}{24pt},family=\textrm,series=\bfseries}
+\setbeamerfont{subtitle}{size=\fontsize{12pt}{12pt},series=\bfseries}
+\setbeamerfont{author}{size=\fontsize{10pt}{10pt},family=\textit}
+
+\usepackage{hanging}
+
+\setbeamertemplate{footnote}{%
+  \hangpara{2em}{1}%
+  \makebox[2em][l]{\tiny{\insertfootnotemark\ \insertfootnotetext\par}}%
+}
+
+\setbeamertemplate{footline}{
+  \hspace{0.25cm}
+  \hfill
+  \texttt{
+  \bfseries{
+  \href{https://twitter.com/owickstrom}{@owickstrom}
+  }}
+  \hspace{0.25cm}
+  \vspace{0.25cm}
+}
+
+\setbeamertemplate{items}[circle]
+\setbeamertemplate{section in toc}{\inserttocsectionnumber.~\inserttocsection}
+
+\newcommand{\singletitle}[1]{
+  \begin{center}
+    \vfill\vfill
+    \fontsize{20pt}{20pt}\textbf{#1}
+    \vfill\vfill
+  \end{center}}
+
+\newcommand{\notelist}[1]{
+  \note{
+    \begin{itemize}[<.->]
+    \setlength\itemsep{2pt}
+    \setstretch{0}#1
+    \end{itemize}
+  }}
+
+\newcommand{\fnote}[1]{\footnote[frame]{#1}}
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote[frame]{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\AtBeginSection[]
+{
+  \begingroup
+  \setbeamercolor{background canvas}{bg=sectionbg}
+  \setbeamercolor{headline}{fg=white}
+  \setbeamertemplate{footline}{}
+  \begin{frame}
+    \begin{center}
+        \vfill\vfill
+        \fontsize{24pt}{24pt}\textbf{\textcolor{white}{\secname}}
+        \vfill\vfill
+    \end{center}
+  \end{frame}
+  \endgroup
+}
+
+\definecolor{typecolor}{HTML}{5200FF}
+\definecolor{functioncolor}{HTML}{924C9D}
+\definecolor{stringcolor}{HTML}{E81C4F}
+\definecolor{numbercolor}{HTML}{0095FF}
+\definecolor{othercolor}{HTML}{444444}
+
+\renewcommand{\KeywordTok}[1]{\textbf{#1}}
+\renewcommand{\FunctionTok}[1]{\textcolor{functioncolor}{#1}}
+\renewcommand{\DataTypeTok}[1]{\textcolor{typecolor}{#1}}
+\renewcommand{\CommentTok}[1]{\textcolor{mediumgray}{#1}}
+\renewcommand{\StringTok}[1]{\textcolor{stringcolor}{#1}}
+\renewcommand{\DecValTok}[1]{\textcolor{numbercolor}{#1}}
+\renewcommand{\OtherTok}[1]{#1}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},fontsize=\linespread{1.05}\footnotesize}
+
+\makeatletter
+\newcommand{\verbatimfont}[1]{\renewcommand{\verbatim@font}{\linespread{1.2}\ttfamily#1}}
+\makeatother
+
+\AtBeginDocument{%
+  \letcs\oig{@orig\string\includegraphics}%
+  \renewcommand<>\includegraphics[2][]{%
+    \only#3{%
+      {\centering\oig[{#1}]{#2}\par}%
+    }%
+  }%
+}
+
+% for full width images
+\usepackage{textpos}
