@@ -12,8 +12,7 @@ classoption: dvipsnames
 
 * Introduction
 * Web Applications
-* Static Typing for Server-Side Web
-* Haskell Web Applications
+* Writing Web Applications with Haskell
 * Client-Side Technologies
 
 \notelist{
@@ -79,7 +78,27 @@ classoption: dvipsnames
 
 \centering{\Large{$\text{Newer} \not\Longrightarrow \text{Better}$}}
 
-# Static Typing for Server-Side Web
+## Static Typing for Server-Side Web
+
+* Compile-time checking
+    - Run-time robustness with defined behaviour
+    - Use types for correct-by-construction
+    - Machine-verified living documentation, communicates intent
+* Safely evolve our codebase
+    - Good tools reduce fear of change
+    - Modify core domain, follow the errors
+* Focus tests on our domain
+    - No need to write tests for type errors
+    - Domain code free of side effects
+
+## Functional Statically Typed Web
+
+* Many languages, many frameworks!
+* Look for the patterns and safety
+* Less power is more power
+* Today's focus is Haskell
+
+# Writing Web Applications with Haskell
 
 ## Blaze
 
