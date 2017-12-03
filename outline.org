@@ -36,13 +36,13 @@ technologies that offer static guarantees for modern web applications.
     - 80/20 rule
   - "Isomorphic" webapps
   - PJAX
-- Newer /= Better
+  - Newer /= Better
 - Static Typing for Server-side web
   - Compile-time guarantees
   - Safely evolvable code
   - Focus your tests on your domain
   - (Examples of functional statically typed language web frameworks)
-- Haskell and server-side web
+- Haskell Web Applications
   - WAI
     - Interface
     - Streaming
