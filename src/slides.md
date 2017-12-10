@@ -100,13 +100,127 @@ classoption: dvipsnames
 
 # Writing Web Applications with Haskell
 
-## Blaze
+## Underpinnings
+
+* Web Aplication Interface (WAI)
+    - Common interface betwen web applications and web servers
+    - Mix frameworks in one application
+    - Comparable with Java Servlet API
+* Warp
+    - WAI web server
+    - Uses GHC's lightweight threads
+
+## Frameworks
+
+* Scotty
+* Spock
+* Yesod
+* Happstack
+* Snap
+* Airship
+* Servant
+* MFlow
+
+## Scotty
+
+* Inspired by Ruby's Sinatra
+* Features
+    - Routing and parameters
+    - Web server setup
+    - Monad transformer
+* "Build your own framework"
+
+## Scotty Routing
+
+``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=app}
+```
+
+## Scotty Server
+
+``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=main}
+```
+
+## HTML Templates
 
 ``` {.haskell}
-H.div $ do
-  H.h1 "My Title"
-  H.p "Yeah..."
+let bootstrapCss = "https://maxcdn.bootstrapcdn.com/..."
+
+get "/greet-with-template/:who" $ do
+  who <- param "who"
+  html $
+       "<!DOCTYPE html>\
+       \<html lang=\"en\">\
+       \<head>\
+       \  <meta charset=\"UTF-8\">\
+       \  <title>My Page</title>\
+       \  <link rel=\"stylesheet\"\
+       \        href=" <> bootstrapCss <> "\">\
+       \</head>\
+       \<body>\
+       \  <div class=\"jumbotron\">\
+       \     <h1>Hello, " <> who <> "!</h1>\
+       \  </div>\
+       \</body>\
+       \</html>\
+       \"
 ```
+
+## HTML Template Error!
+
+\begin{textblock*}{0cm}(2.5cm,4.6cm)
+\begin{tikzpicture}
+\node at(0, 0) [draw, stringcolor,line width=3pt,ellipse, minimum width=80pt, minimum height=20pt]{};
+\end{tikzpicture}
+\end{textblock*}
+
+``` {.haskell}
+let bootstrapCss = "https://maxcdn.bootstrapcdn.com/..."
+
+get "/greet-with-template/:who" $ do
+  who <- param "who"
+  html $
+       "<!DOCTYPE html>\
+       \<html lang=\"en\">\
+       \<head>\
+       \  <meta charset=\"UTF-8\">\
+       \  <title>My Page</title>\
+       \  <link rel=\"stylesheet\"\
+       \        href=" <> bootstrapCss <> "\">\
+       \</head>\
+       \<body>\
+       \  <div class=\"jumbotron\">\
+       \     <h1>Hello, " <> who <> "!</h1>\
+       \  </div>\
+       \</body>\
+       \</html>\
+       \"
+```
+
+## DSLs for HTML
+
+* Instead of HTML in strings, we use DSLs
+* Embedded:
+    - Blaze
+    - Lucid
+* External:
+    - Heist
+    - Hamlet
+* Type safety
+* Composable
+
+## Lucid HTML Template
+
+``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=lucid-template}
+```
+
+## Rendering Lucid with Scotty
+
+``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=lucid-handler dedent=2}
+```
+
+## Result
+
+![](../../src/lucid-hello.png){width=75%}
 
 # Client-Side Technologies
 

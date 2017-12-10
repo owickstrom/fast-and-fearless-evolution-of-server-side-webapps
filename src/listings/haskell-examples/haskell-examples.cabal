@@ -14,8 +14,8 @@ library
   default-language:    Haskell2010
   exposed-modules:     Blaze
   build-depends:       base >= 4.7 && < 5
-                     , blaze-markup
-                     , blaze-html
+                     , lucid
+                     , scotty
                      , bytestring
                      , text
   ghc-options: -Werror -Wall -fwarn-tabs

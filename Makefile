@@ -7,6 +7,10 @@ SRCS=$(shell find src -name '*.tex') \
 		 $(shell find src/listings) \
 		 src/slides.tex
 
+HS_SRCS=$(shell find src/listings/haskell-examples -name '*.hs') \
+				src/listings/haskell-examples/haskell-examples.cabal \
+				src/listings/haskell-examples/stack.yaml
+
 PANDOC_FLAGS= -t beamer \
 		-f markdown+multiline_tables \
 						 -s \
@@ -29,7 +33,7 @@ all: slides programs
 .PHONY: slides
 slides: $(SLIDES) $(SLIDES_NO_NOTES)
 
-target/slides.tex: src/slides.md src/customizations.tex src/notes.tex
+target/slides.tex: src/slides.md src/customizations.tex src/notes.tex $(HS_SRCS)
 	mkdir -p target
 	pandoc $(PANDOC_FLAGS) \
 		-H src/notes.tex \
