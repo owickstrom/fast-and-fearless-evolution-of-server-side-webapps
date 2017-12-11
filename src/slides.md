@@ -102,7 +102,7 @@ classoption: dvipsnames
 
 ## Underpinnings
 
-* Web Aplication Interface (WAI)
+* Web Application Interface (WAI)
     - Common interface betwen web applications and web servers
     - Mix frameworks in one application
     - Comparable with Java Servlet API
@@ -120,6 +120,8 @@ classoption: dvipsnames
 * Airship
 * Servant
 * MFlow
+
+# Scotty
 
 ## Scotty
 
@@ -221,6 +223,85 @@ get "/greet-with-template/:who" $ do
 ## Result
 
 ![](../../src/lucid-hello.png){width=75%}
+
+## Side Effects in Scotty
+
+* So far we haven't done more than sending HTML responses
+* We want to do IO, e.g. talk to a database
+* IO can be done in Scotty handlers using `liftIO`
+
+## IO in Scotty
+
+* As an example, say we have this definition:
+
+    ``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=addNewComment}
+    ```
+* We can use it in a handler:
+
+    ``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=post-handler dedent=2}
+    ```
+
+
+## Starting with Scotty
+
+* Easy to get started, learn the basics
+* What you don't get:
+    - Templating
+    - Sessions
+    - Authentication and Authorization
+    - Logging
+    - Persistence
+* Have a look at Spock\fnote{\url{https://www.spock.li}} for more features
+
+# Yesod
+
+## Yesod
+
+* "One-stop shop" for Haskell web development
+* Probably the closest to "Ruby on Rails" you'll get\fnote{In terms of "batteries included", not in terms of its design!}
+
+* Also runs on WAI
+
+## Batteries Included with Yesod
+
+* Type-safe routing
+* External templates for HTML, CSS, and Javascript
+* Widgets
+* Forms
+* Sessions
+* Integration with `persistent`
+* Authentication and Authorization
+* Internationalization
+* Logging
+* Configuration
+* Auto-reloading web server
+
+## Getting Started
+
+* Use a template
+* There will be things you don't understand at first
+* Start out exploring:
+    - Routing
+    - Templates
+    - The "Foundation" type
+    - Getting something done!
+* Over time, you'll understand the scaffolding
+
+## Type-Safe Routing
+
+## Hamlet (HTML Templates)
+
+## Cassius (CSS Templates)
+
+## Widgets
+
+## Forms
+
+# Airship
+
+## Airship
+
+## Example Resource
 
 # Client-Side Technologies
 

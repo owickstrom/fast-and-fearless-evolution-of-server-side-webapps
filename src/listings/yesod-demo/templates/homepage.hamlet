@@ -1,0 +1,6 @@
+<div .container>
+  <div .row>
+    <h1 .header>
+      Yesod Demo
+    <p>
+      Let's see how it works!

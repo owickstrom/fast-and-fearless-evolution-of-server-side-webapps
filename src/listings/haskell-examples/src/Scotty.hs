@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Scotty where
 
+import Control.Monad.IO.Class
 import Data.Semigroup
 import Data.Text.Lazy
 import Web.Scotty
@@ -19,6 +20,7 @@ app = do
 -- end snippet app
   messyHtml
   lucidHandler
+  postHandler
 
 -- start snippet lucid-template
 homeView :: Text -> Html ()
@@ -43,6 +45,24 @@ lucidHandler =
     who <- param "who"
     html (renderText (homeView who))
 -- end snippet lucid-handler
+
+-- start snippet addNewComment
+type PostId = Text
+
+addNewComment :: PostId -> Text -> IO ()
+--- end snippet addNewComment
+addNewComment _ _ = return () -- only for slides
+
+postHandler :: ScottyM ()
+postHandler =
+  -- start snippet post-handler
+  post "/posts/:post-id/comments" $ do
+    postId <- param "post-id"
+    -- accepts a form or query parameter "comment"
+    comment <- param "comment"
+    liftIO (addNewComment postId comment)
+    redirect ("/posts/" <> postId)
+  -- end snippet post-handler
 
 -- start snippet main
 main :: IO ()
