@@ -258,8 +258,9 @@ get "/greet-with-template/:who" $ do
 ## Yesod
 
 * "One-stop shop" for Haskell web development
-* Probably the closest to "Ruby on Rails" you'll get\fnote{In terms of "batteries included", not in terms of its design!}
-
+    - A framework
+    - Batteries included
+    - Still very modular
 * Also runs on WAI
 
 ## Batteries Included with Yesod
@@ -269,7 +270,7 @@ get "/greet-with-template/:who" $ do
 * Widgets
 * Forms
 * Sessions
-* Integration with `persistent`
+* Integration with Persistent
 * Authentication and Authorization
 * Internationalization
 * Logging
@@ -278,22 +279,76 @@ get "/greet-with-template/:who" $ do
 
 ## Getting Started
 
-* Use a template
+* Use a template (see `stack templates`)
 * There will be things you don't understand at first
 * Start out exploring:
     - Routing
-    - Templates
+    - Templates (HTML, CSS, Javascript)
     - The "Foundation" type
     - Getting something done!
 * Over time, you'll understand the scaffolding
+* Use the auto-reloading web server
+    - Install `yesod-bin`
+    - Run `yesod devel`
 
-## Type-Safe Routing
+## Routes Configuration
 
-## Hamlet (HTML Templates)
+``` {.changelog include=src/listings/yesod-demo/config/routes snippet=routes}
+```
 
-## Cassius (CSS Templates)
+## A Simple Handler
+
+``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=get-home-handler}
+```
+
+## Type-Safe Routing: Links
+
+``` {.hamlet include=src/listings/yesod-demo/templates/homepage.hamlet}
+```
+
+## Routing with Path Pieces
+
+``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=get-post-handler}
+```
+
+## Post Hamlet Template
+
+``` {.hamlet include=src/listings/yesod-demo/templates/post.hamlet}
+```
 
 ## Widgets
+
+* Reusable components of HTML, CSS, and Javascript
+* We used widgets in handlers:
+
+	```{.haskell}
+  $(widgetFile "post")
+	```
+
+* Yesod tries to find matching widget files:
+
+	```{.changelog}
+	templates/post.hamlet
+	templates/post.cassius
+	templates/post.lucius
+	templates/post.julius
+	```
+
+* Only include small amount of local styling this way!
+* `addStylesheet` takes a type-safe URL
+
+## Lucius (CSS Templates)
+
+``` {.css include=src/listings/yesod-demo/templates/post.lucius}
+```
+
+## Home Page Result
+
+![](../../src/yesod-home.png){width=75%}
+
+## Post Page Result
+
+![](../../src/yesod-post.png){width=75%}
 
 ## Forms
 

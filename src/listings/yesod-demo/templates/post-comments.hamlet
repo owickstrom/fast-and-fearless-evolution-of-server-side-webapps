@@ -1,9 +1,0 @@
-<div .container>
-  <div .row>
-    <h1 .header>#{postTitle post}
-    <p>#{postContent post}
-    <ul .comments>
-      $forall comment <- comments
-        <li .comment>
-          <span .author>#{commentAuthor comment}
-          <span .content>#{commentContents comment}

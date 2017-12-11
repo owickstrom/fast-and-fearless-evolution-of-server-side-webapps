@@ -6,6 +6,8 @@
 /favicon.ico FaviconR GET
 /robots.txt RobotsR GET
 
+-- start snippet routes
 / HomeR GET
 
-/posts/#PostId/comments PostCommentsR GET
+/posts/#PostId PostR GET
+-- end snippet routes

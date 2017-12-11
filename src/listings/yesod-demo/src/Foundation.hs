@@ -87,9 +87,6 @@ instance Yesod App where
 
         mcurrentRoute <- getCurrentRoute
 
-        -- Get the breadcrumbs, as defined in the YesodBreadcrumbs instance.
-        (title, parents) <- breadcrumbs
-
         -- Define the menu items of the header.
         let menuItems =
                 [ NavbarLeft $ MenuItem
@@ -149,11 +146,6 @@ instance Yesod App where
             || level == LevelError
 
     makeLogger = return . appLogger
-
--- Define breadcrumbs.
-instance YesodBreadcrumbs App where
-  breadcrumb HomeR = return ("Home", Nothing)
-  breadcrumb  _ = return ("home", Nothing)
 
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.

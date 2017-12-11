@@ -1,6 +1,5 @@
-<div .container>
-  <div .row>
-    <h1 .header>
-      Yesod Demo
-    <p>
-      Let's see how it works!
+<h1>My Blog
+<ul>
+  $forall post <- posts
+    <li>
+      <a href=@{PostR (postId post)}>#{postTitle post}

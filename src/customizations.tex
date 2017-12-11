@@ -112,9 +112,10 @@
 \definecolor{functioncolor}{HTML}{924C9D}
 \definecolor{stringcolor}{HTML}{E81C4F}
 \definecolor{numbercolor}{HTML}{0095FF}
+\definecolor{keywordcolor}{HTML}{444444}
 \definecolor{othercolor}{HTML}{444444}
 
-\renewcommand{\KeywordTok}[1]{\textbf{#1}}
+\renewcommand{\KeywordTok}[1]{\textcolor{keywordcolor}{#1}}
 \renewcommand{\FunctionTok}[1]{\textcolor{functioncolor}{#1}}
 \renewcommand{\DataTypeTok}[1]{\textcolor{typecolor}{#1}}
 \renewcommand{\CommentTok}[1]{\textcolor{mediumgray}{#1}}
@@ -126,6 +127,9 @@
 \makeatletter
 \newcommand{\verbatimfont}[1]{\renewcommand{\verbatim@font}{\linespread{1.2}\ttfamily#1}}
 \makeatother
+
+\let\OldTexttt\texttt
+\renewcommand{\texttt}[1]{\OldTexttt{\textcolor{typecolor}{#1}}}
 
 \AtBeginDocument{%
   \letcs\oig{@orig\string\includegraphics}%

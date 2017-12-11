@@ -1,0 +1,10 @@
+<h1>#{postTitle post}
+<p>#{postContent post}
+
+<div .comments>
+  <h2>Comments
+  <ul>
+    $forall comment <- comments
+      <li .comment>
+        <span .author>#{commentAuthor comment}
+        <span .content>#{commentContents comment}
