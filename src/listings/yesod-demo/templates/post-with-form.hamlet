@@ -1,0 +1,21 @@
+<h1>#{postTitle post}
+<p>#{postContent post}
+
+<div .comments>
+  <h2>Comments
+  <ul>
+    $forall comment <- comments
+      <li .comment>
+        <span .author>#{commentAuthor comment}
+        <span .content>#{commentContents comment}
+
+$# start snippet new-comment
+<div .new-comment>
+  <h3>Add Comment
+  <form role=form
+        method=post
+        action=@{PostCommentsR id'}
+        enctype=#{commentFormEnc}>
+   ^{commentFormWidget}
+   <button type="submit" .btn .btn-default>Submit
+$# end snippet new-comment

@@ -334,8 +334,12 @@ get "/greet-with-template/:who" $ do
 	templates/post.julius
 	```
 
-* Only include small amount of local styling this way!
-* `addStylesheet` takes a type-safe URL
+* Can refer to bindings in Haskell code
+* Only include small parts, or use external resources
+
+\notelist {
+	\item External resources can be referred with type safe URLs
+}
 
 ## Lucius (CSS Templates)
 
@@ -350,13 +354,153 @@ get "/greet-with-template/:who" $ do
 
 ![](../../src/yesod-post.png){width=75%}
 
-## Forms
+## Yesod Forms
+
+* Write forms using applicative or monadic style
+* Use the same structure for rendering, parsing, and validation
+* There are various renderers available
+
+## Comment Form
+
+``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=comment-form}
+```
+
+## Rendering a Form
+
+``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=get-post-with-form-handler}
+```
+
+## Parsing and Validating the Form
+
+``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=post-comment-handler}
+```
+
+## Comment Form Result
+
+![](../../src/yesod-form.png){width=75%}
+
+## Yesod Recap
+
+* Very capable, hit the ground running
+* We only looked at some core features
+* Worth learning
 
 # Airship
 
 ## Airship
 
-## Example Resource
+* Inspired by Webmachine from Erlang
+* Define RESTful resources
+* Override fields in the default resource
+* Tie together resources with routing
+
+## Airship Routes
+
+``` {.haskell include=src/listings/airship-demo/src/Main.hs snippet=app-routes}
+```
+
+## Defining Resources
+
+``` {.haskell}
+postResource :: Resource IO
+postResource =
+  defaultResource
+  {
+	-- overrides ...
+  }
+```
+
+## knownContentType
+
+``` {.changelog}
+...
+```
+
+``` {.haskell include=src/listings/airship-demo/src/Main.hs snippet=knownContentType}
+```
+
+``` {.changelog}
+...
+```
+
+## resourceExists
+
+``` {.changelog}
+...
+```
+
+``` {.haskell include=src/listings/airship-demo/src/Main.hs snippet=resourceExists}
+```
+
+``` {.changelog}
+...
+```
+
+## contentTypesProvided
+
+``` {.changelog}
+...
+```
+
+``` {.haskell include=src/listings/airship-demo/src/Main.hs snippet=contentTypesProvided}
+```
+
+``` {.changelog}
+...
+```
+
+## 404 Not Found
+
+``` bash
+$ curl -i 'localhost:3000'
+HTTP/1.1 404 Not Found
+Transfer-Encoding: chunked
+Date: Tue, 12 Dec 2017 15:43:29 GMT
+Server: Warp/3.2.13
+Content-Type: text/html
+
+Not found!
+```
+
+## 405 Method Not Allowed
+
+``` bash
+$ curl -i -X PUT 'localhost:3000/posts/1'
+HTTP/1.1 405 Method Not Allowed
+Transfer-Encoding: chunked
+Date: Tue, 12 Dec 2017 15:44:21 GMT
+Server: Warp/3.2.13
+Allow: GET,HEAD,POST
+```
+
+## 406 Not Acceptable
+
+``` bash
+$ curl -i -H 'Accept: text/plain' 'localhost:3000/posts/1'
+HTTP/1.1 406 Not Acceptable
+Transfer-Encoding: chunked
+Date: Tue, 12 Dec 2017 15:48:27 GMT
+Server: Warp/3.2.13
+```
+
+## 200 OK
+
+``` bash
+$ curl -i 'localhost:3000/posts/1'
+HTTP/1.1 200 OK
+Transfer-Encoding: chunked
+Date: Tue, 12 Dec 2017 15:45:29 GMT
+Server: Warp/3.2.13
+Content-Type: text/html
+
+<h1>Airship Webmachines!</h1><p>Lorem ipsum...</p>
+```
+
+## Airship Considerations
+
+* It is more low-level/barebones
+* Again, "build your own framework"
+* Suited for RESTful APIs
 
 # Client-Side Technologies
 

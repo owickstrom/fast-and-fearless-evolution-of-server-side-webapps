@@ -1,37 +1,40 @@
-{-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE ViewPatterns          #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE ViewPatterns #-}
+{-# LANGUAGE NoImplicitPrelude     #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE TemplateHaskell       #-}
+{-# LANGUAGE TypeFamilies          #-}
 
 module Foundation where
 
-import Import.NoFoundation
-import Text.Hamlet                 (hamletFile)
-import Text.Jasmine                (minifym)
-import Yesod.Core.Types            (Logger)
-import Yesod.Default.Util          (addStaticContentExternal)
-import qualified Yesod.Core.Unsafe as Unsafe
 import qualified Data.CaseInsensitive as CI
-import qualified Data.Text.Encoding as TE
+import           Data.HashMap.Strict  (HashMap)
+import qualified Data.Text.Encoding   as TE
+import           Import.NoFoundation
+import           Text.Hamlet          (hamletFile)
+import           Text.Jasmine         (minifym)
+import           Yesod.Core.Types     (Logger)
+import qualified Yesod.Core.Unsafe    as Unsafe
+import           Yesod.Default.Util   (addStaticContentExternal)
 
-import Post
+import           Post
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
 -- starts running, such as database connections. Every handler will have
 -- access to the data present here.
 data App = App
-    { appSettings    :: AppSettings
-    , appStatic      :: Static -- ^ Settings for static file serving.
-    , appHttpManager :: Manager
-    , appLogger      :: Logger
-    }
+  { appSettings     :: AppSettings
+  , appStatic       :: Static -- ^ Settings for static file serving.
+  , appHttpManager  :: Manager
+  , appLogger       :: Logger
+  , appPosts        :: HashMap PostId Post
+  , appPostComments :: MVar (HashMap PostId [Comment])
+  }
 
 data MenuItem = MenuItem
-    { menuItemLabel :: Text
-    , menuItemRoute :: Route App
+    { menuItemLabel          :: Text
+    , menuItemRoute          :: Route App
     , menuItemAccessCallback :: Bool
     }
 
@@ -63,7 +66,7 @@ instance Yesod App where
     -- see: https://github.com/yesodweb/yesod/wiki/Overriding-approot
     approot = ApprootRequest $ \app req ->
         case appRoot $ appSettings app of
-            Nothing -> getApprootText guessApproot app req
+            Nothing   -> getApprootText guessApproot app req
             Just root -> root
 
     -- Store session data on the client in encrypted cookies,
@@ -115,9 +118,9 @@ instance Yesod App where
 
     -- Routes not requiring authenitcation.
     isAuthorized FaviconR _ = return Authorized
-    isAuthorized RobotsR _ = return Authorized
+    isAuthorized RobotsR _  = return Authorized
     -- Default to Authorized for now.
-    isAuthorized _ _ = return Authorized
+    isAuthorized _ _        = return Authorized
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows

@@ -1,0 +1,18 @@
+.comments, .new-comment {
+  margin-top: 3em;
+}
+.comments ul {
+  list-style-type: none;
+  padding: 0;
+}
+.comment {
+  background: #eee;
+  padding: .5em;
+  margin-bottom: 1em;
+}
+.author {
+  font-weight: bold;
+}
+.author:after {
+  content: ':';
+}

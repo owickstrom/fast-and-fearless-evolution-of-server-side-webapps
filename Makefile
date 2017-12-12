@@ -6,6 +6,7 @@ SRCS=$(shell find src -name '*.tex') \
      $(shell find src -name '*.bib') \
 		 $(shell find src/listings) \
 		 src/slides.tex
+IMGS=$(shell find src -name '*.png')
 
 HS_SRCS=$(shell find src/listings/haskell-examples -name '*.hs') \
 				src/listings/haskell-examples/haskell-examples.cabal \
@@ -33,7 +34,7 @@ all: slides programs
 .PHONY: slides
 slides: $(SLIDES) $(SLIDES_NO_NOTES)
 
-target/slides.tex: src/slides.md src/customizations.tex src/notes.tex $(HS_SRCS)
+target/slides.tex: src/slides.md src/customizations.tex src/notes.tex $(HS_SRCS) $(IMGS)
 	mkdir -p target
 	pandoc $(PANDOC_FLAGS) \
 		-H src/notes.tex \
@@ -66,6 +67,7 @@ $(SLIDES_NO_NOTES): target/slides-no-notes.tex
 
 programs:
 	cd src/listings/haskell-examples && stack build
+	cd src/listings/yesod-demo && stack build
 
 clean:
 	rm -rf target

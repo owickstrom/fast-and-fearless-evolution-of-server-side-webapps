@@ -1,3 +1,4 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Post where
 
 import           Import.NoFoundation
@@ -6,7 +7,7 @@ import qualified Data.Text           as T
 
 newtype PostId =
   PostId Text
-  deriving (Show, Read, Eq, Ord)
+  deriving (Show, Read, Eq, Ord, Hashable)
 
 instance PathPiece PostId where
   toPathPiece (PostId t) = t

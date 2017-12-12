@@ -11,3 +11,9 @@
 
 /posts/#PostId PostR GET
 -- end snippet routes
+
+-- start snippet routes-2
+/posts/#PostId/comments PostCommentsR POST
+-- end snippet routes-2
+
+/posts/#PostId/with-form PostWithFormR GET
