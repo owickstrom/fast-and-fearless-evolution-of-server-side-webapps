@@ -13,6 +13,9 @@ classoption: dvipsnames
 * Introduction
 * Web Applications
 * Writing Web Applications with Haskell
+    - Scotty
+    - Yesod
+    - Airship
 * Client-Side Technologies
 
 \notelist{
@@ -27,8 +30,8 @@ classoption: dvipsnames
 * Bug fixes
 * Refactoring
 * External factors
-  - New regulation
-  - Deprecation of software and services
+    - New regulation
+    - Deprecation of software and services
 * Recruiting
 
 \notelist{
@@ -67,16 +70,17 @@ classoption: dvipsnames
     - No Javascript, no application
 * Universal webapps (aka "isomorphic")
 
+## Reminder
+
+\centering{\Large{$\text{Newer} \not\Longrightarrow \text{Better}$}}
+
 ## Server-Side Web Applications
 
+* Do not dismiss server-side web applications
 * Progressive enhancement
 * 80/20 rule
 * Use client-side code where you need it!
 * PJAX
-
-## Reminder
-
-\centering{\Large{$\text{Newer} \not\Longrightarrow \text{Better}$}}
 
 ## Static Typing for Server-Side Web
 
@@ -301,7 +305,7 @@ get "/greet-with-template/:who" $ do
 ``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=get-home-handler}
 ```
 
-## Type-Safe Routing: Links
+## Hamlet Template
 
 ``` {.hamlet include=src/listings/yesod-demo/templates/homepage.hamlet}
 ```
@@ -410,19 +414,6 @@ postResource =
   }
 ```
 
-## knownContentType
-
-``` {.changelog}
-...
-```
-
-``` {.haskell include=src/listings/airship-demo/src/Main.hs snippet=knownContentType}
-```
-
-``` {.changelog}
-...
-```
-
 ## resourceExists
 
 ``` {.changelog}
@@ -494,6 +485,24 @@ Server: Warp/3.2.13
 Content-Type: text/html
 
 <h1>Airship Webmachines!</h1><p>Lorem ipsum...</p>
+```
+
+## Overrides
+
+```{.changelog}
+allowMissingPost           lastModified
+allowedMethods             languageAvailable
+contentTypesAccepted       malformedRequest
+contentTypesProvided       movedPermanently
+deleteCompleted            movedTemporarily
+deleteResource             multipleChoices
+entityTooLarge             previouslyExisted
+forbidden                  processPost
+generateETag               resourceExists
+implemented                serviceAvailable
+isAuthorized               uriTooLong
+isConflict                  validContentHeaders
+knownContentType
 ```
 
 ## Airship Considerations

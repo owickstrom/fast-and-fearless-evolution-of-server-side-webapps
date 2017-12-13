@@ -26,14 +26,14 @@ app = do
 homeView :: Text -> Html ()
 homeView who =
   html_ [lang_ "en"] $ do
-    head_ [] $ do
+    head_ $ do
       meta_ [charset_ "UTF-8"]
-      title_ [] "My Page"
+      title_ "My Page"
       link_ [rel_ "stylesheet", href_ bootstrapCss]
 
-    body_ [] $
+    body_ $
       div_ [class_ "jumbotron"] $
-        h1_ [] ("Hello, " <> toHtml who <> "!")
+        h1_ ("Hello, " <> toHtml who <> "!")
 -- end snippet lucid-template
   where
     bootstrapCss = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"

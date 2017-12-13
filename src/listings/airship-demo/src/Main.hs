@@ -55,10 +55,6 @@ postResource =
     allowedMethods =
       return [HTTP.methodGet, HTTP.methodHead, HTTP.methodPost]
 -- end snippet allowedMethods
--- start snippet knownContentType
-  , knownContentType =
-      contentTypeMatches ["text/html"]
--- end snippet knownContentType
 -- start snippet resourceExists
   , resourceExists =
       routingParam "postId" >>= postExists
