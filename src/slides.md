@@ -123,10 +123,23 @@ classoption: dvipsnames
 
 ## Functional Statically Typed Web
 
-* Many languages, many frameworks!
-* Look for the patterns and safety
-* Less power is more power
-* Today's focus is Haskell
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.7\textwidth}
+    \begin{minipage}{\textwidth}
+      \begin{itemize}
+        \item Many languages, many frameworks!
+        \item Look for the patterns and safety
+        \item Less power is more power
+        \item Today's focus is Haskell
+      \end{itemize}
+    \end{minipage}
+  \end{column}
+  \begin{column}{.3\textwidth}
+    \begin{minipage}{\textwidth}
+      \includegraphics[width=2.5cm]{../../src/haskell.png}
+    \end{minipage}
+  \end{column}
+\end{columns}
 
 # Writing Web Applications with Haskell
 
@@ -552,9 +565,8 @@ Need to do a single-page app?
 ##
 
 \centering{
-  \includegraphics[width=5cm]{../../src/hammer.png}
-  \vspace{.5cm}
-  \Large{Reduce fear in evolving software\\by using stronger and safer tools.}
+  \includegraphics[width=4cm]{../../src/brain.png}
+  \Large{Evolve software fearlessly using better tools \\ for modeling and communication.}
 }
 
 ##
