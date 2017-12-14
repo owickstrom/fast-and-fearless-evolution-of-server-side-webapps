@@ -551,15 +551,27 @@ Need to do a single-page app?
 
 ##
 
-\centering{\Large{Reduce fear in evolving software\\by using stronger and safer tools.}}
+\centering{
+  \includegraphics[width=5cm]{../../src/hammer.png}
+  \vspace{.5cm}
+  \Large{Reduce fear in evolving software\\by using stronger and safer tools.}
+}
 
 ##
 
-\centering{\Large{Spend your complexity budget carefully.}}
+\centering{
+  \includegraphics[width=5cm]{../../src/tokens.jpeg}
+  \vspace{.5cm}
+  \Large{Spend your complexity budget carefully.}
+}
 
 ##
 
-\centering{\Large{Explore the wonderful world of functional\\and statically typed server-side web.}}
+\centering{
+  \includegraphics[width=2cm]{../../src/mwa-logo.png}
+  \vspace{.5cm}
+  \Large{Explore the wonderful world of functional\\and statically typed server-side web.}
+}
 
 ## Links
 
