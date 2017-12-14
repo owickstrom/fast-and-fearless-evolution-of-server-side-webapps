@@ -19,7 +19,10 @@ classoption: dvipsnames
 * Client-Side Technologies
 
 \notelist{
-  \item
+  \item Today, after a high-level introduction, we'll talk about web applications
+  \item Specifically, we will talk about writing webapps in Haskell
+  \item I'll demonstrate some frameworks available
+  \item And say a few words about client-side technologies
 }
 
 # Introduction
@@ -35,42 +38,24 @@ classoption: dvipsnames
 * Recruiting
 
 \notelist{
-  \item We have many reasons to evolve software...
+  \item There are many reasons to evolve software
+  \item We will probably have ...
 }
 
-## Risk
+## Risks
 
-\begin{columns}[T,onlytextwidth]
-  \begin{column}{.4\textwidth}
-    \begin{minipage}{\textwidth}
-      \begin{itemize}
-        \item{Risks
-          \begin{itemize}
-            \item Delay
-            \item Error
-            \item Burnout
-          \end{itemize}}
-      \end{itemize}
-    \end{minipage}
-  \end{column}
-  \begin{column}{.4\textwidth}
-    \begin{minipage}{\textwidth}
-      \begin{tikzpicture}[black]
-        \draw (0,0) node[anchor=north]{Cost}
-          -- (3,0) node[anchor=north]{Scope}
-          -- (1.5,2.595) node[anchor=south]{Time}
-          -- cycle;
-      \end{tikzpicture}
-    \end{minipage}
-  \end{column}
-\end{columns}
-
+* Evolving software, we face risks:
+    - Delay
+    - Error
+    - Burnout
+* These risks make it scary to evolve freely
 
 \notelist{
   \item When evolving software, we risk: ...
-  \item These things hurt: Customers, partners, internal relations
-  \item This might remind you of the classic project management triangle
-  \item I think the fear of evolving software is rooted in past experience
+  \item These things hurt not only ourselves, but: Customers, partners, internal relations
+  \item The risks make it scary to evolve our software freely
+  \item The change you want to make can be too risky
+  \item I think the fear of evolving software freely has a huge impact on our systems
 }
 
 ## Tooling
@@ -95,9 +80,21 @@ classoption: dvipsnames
     - No Javascript, no application
 * Universal webapps (aka "isomorphic")
 
+\notelist{
+  \item Many of us work with the web in one way or another ... (internet)
+  \item Currently, single-page apps are trendy. These work more like ...
+  \item Now, you might think "What about universal webapps?"
+  \item They are about initial rendering, not about transparently running the same application client-side and server-side
+}
+
 ## Reminder
 
 \centering{\Large{$\text{Newer} \not\Longrightarrow \text{Better}$}}
+
+\notelist{
+  \item This is my friendly reminder: Never does not imply better
+  \item While the single-page app tech is very new and flashy, it might not be a good choice for your project
+}
 
 ## Server-Side Web Applications
 
@@ -106,6 +103,16 @@ classoption: dvipsnames
 * 80/20 rule
 * Use client-side code where you need it!
 * PJAX
+
+\notelist{
+  \item I urge you not to dismiss server-side web applications
+  \item Rather, have that as a default choice
+  \item You can use what's known as "Progressive Enhancement", where ...
+  \item Also important to recognize: All code is not equally valuable
+  \item Pages for Settings, Login, Documentation, etc
+  \item Use client-side code where you need it, where you get a return on the investment
+  \item If you want more snappy navigation, things like PJAX go a long way
+}
 
 ## Static Typing for Server-Side Web
 
