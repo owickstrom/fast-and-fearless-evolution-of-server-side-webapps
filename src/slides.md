@@ -91,6 +91,7 @@ classoption: dvipsnames
 * Safely evolve our codebase
     - Good tools reduce fear of change
     - Modify core domain, follow the errors
+    - Not split by an API
 * Focus tests on our domain
     - No need to write tests for type errors
     - Domain code free of side effects
@@ -513,10 +514,32 @@ knownContentType
 
 # Client-Side Technologies
 
-# Questions?
+## Client-Side Technologies
+
+Need to do a single-page app?
+
+* PureScript, Elm, TypeScript, GHCJS, Scala.js, Fable JS, etc
+* Consider Haskell for your backend
+* With Servant, you can use `servant-purescript` or `servant-elm`
+
+# Summary
+
+##
+
+\centering{\Large{Reduce fear in evolving software\\by using stronger and safer tools.}}
+
+##
+
+\centering{\Large{Spend your complexity budget carefully.}}
+
+##
+
+\centering{\Large{Explore the wonderful world of functional\\and statically typed server-side web.}}
 
 ## Links
 
 * Slides and code: ...
 * Website: [https://wickstrom.tech](https://wickstrom.tech)
 * Twitter: [\@owickstrom](https://twitter.com/owickstrom)
+
+# Questions?
