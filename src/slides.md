@@ -40,17 +40,42 @@ classoption: dvipsnames
 
 ## Risk
 
-* Delay
-* Error
-* Burnout
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.4\textwidth}
+    \begin{minipage}{\textwidth}
+      \begin{itemize}
+        \item{Risks
+          \begin{itemize}
+            \item Delay
+            \item Error
+            \item Burnout
+          \end{itemize}}
+      \end{itemize}
+    \end{minipage}
+  \end{column}
+  \begin{column}{.4\textwidth}
+    \begin{minipage}{\textwidth}
+      \begin{tikzpicture}[black]
+        \draw (0,0) node[anchor=north]{Cost}
+          -- (3,0) node[anchor=north]{Scope}
+          -- (1.5,2.595) node[anchor=south]{Time}
+          -- cycle;
+      \end{tikzpicture}
+    \end{minipage}
+  \end{column}
+\end{columns}
+
 
 \notelist{
-  \item Who can this hurt? Customers, partners, internal relations
+  \item When evolving software, we risk: ...
+  \item These things hurt: Customers, partners, internal relations
+  \item This might remind you of the classic project management triangle
+  \item I think the fear of evolving software is rooted in past experience
 }
 
 ## Tooling
 
-* We can mitigate with better tools
+* We can reduce fear with better tools
     - Stronger correctness guarantees
     - Robustness
     - Faster feedback
