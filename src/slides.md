@@ -121,12 +121,16 @@ classoption: dvipsnames
     - Use types for correct-by-construction
     - Machine-verified living documentation, communicates intent
 * Safely evolve our codebase
-    - Good tools reduce fear of change
+    - Reduce fear of change throughout the codebase
     - Modify core domain, follow the errors
     - Not split by an API
 * Focus tests on our domain
     - No need to write tests for type errors
     - Domain code free of side effects
+
+\notelist{
+  \item Combining server-side web with static typing, we get a lot of benefits
+}
 
 ## Functional Statically Typed Web
 
@@ -160,6 +164,11 @@ classoption: dvipsnames
     - WAI web server
     - Uses GHC's lightweight threads
 
+\notelist{
+  \item The Haskell web frameworks we'll look at all build on WAI, ...
+  \item Warp is a popular and fast web server for WAI
+}
+
 ## Frameworks
 
 * Scotty
@@ -170,6 +179,12 @@ classoption: dvipsnames
 * Airship
 * Servant
 * MFlow
+
+\notelist{
+  \item In the Haskell ecosystem, there are many web frameworks.
+  \item This list is not exhaustive
+  \item We will look at three of these frameworks: Scotty, Yesod, and Airship
+}
 
 # Scotty
 
@@ -182,15 +197,33 @@ classoption: dvipsnames
     - Monad transformer
 * "Build your own framework"
 
+\notelist{
+  \item Inspired by Ruby's Sinatra
+  \item It provides routing, parameters, and form parsing
+  \item It is easy to get started, setting up a web server
+  \item It builds in ScottyT, a monad transformer, which you can extend
+  \item Scotty is very small, and if you build something bigger, you'll likely have to "build your own framework"
+}
+
 ## Scotty Routing
 
 ``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=app}
 ```
 
+\notelist{
+  \item This is a Scotty app with two routes
+  \item (explain code)
+}
+
 ## Scotty Server
 
 ``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=main}
 ```
+
+\notelist{
+  \item This is how we run it
+  \item Now, usually you need to render larger chunks of HTML
+}
 
 ## HTML Templates
 
@@ -216,6 +249,14 @@ get "/greet-with-template/:who" $ do
        \</html>\
        \"
 ```
+
+\notelist{
+  \item Let's say we do this
+  \item It is very hard to read
+  \item Sure, we could refactor to separate view functions
+  \item The bigger issue is that we're doing stringly-typed programming
+  \item \textbf{Can anyone tell me what's wrong here?}
+}
 
 ## HTML Template Error!
 
@@ -248,6 +289,12 @@ get "/greet-with-template/:who" $ do
        \"
 ```
 
+\notelist{
+  \item We are missing an escaped double quote here
+  \item The string literal's quote makes it extra hard to see
+  \item So, let's not do this.
+}
+
 ## DSLs for HTML
 
 * Instead of HTML in strings, we use DSLs
@@ -260,36 +307,80 @@ get "/greet-with-template/:who" $ do
 * Type safety
 * Composable
 
+\notelist{
+  \item Instead we use a markup DSL
+  \item There are embedded and external DSLs for HTML
+  \item Embedded means the markup is written in regular Haskell, in Haskell source files
+  \item Two popular libraries are Blaze and Lucid
+  \item For external HTML templating languages, we can use Heist or Hamlet
+  \item The external ones are typically written in separate files, but can also be embedded using quasi-quoting
+  \item These languages give is type-safe templates that are composable
+  \item They help us produce valid HTML
+}
+
 ## Lucid HTML Template
 
 ``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=lucid-template}
 ```
+
+\notelist{
+  \item Here we see the equivalent template in Lucid
+  \item Elements are nested using function application
+  \item Elements are juxtaposed using do notation
+  \item Attributes are set using a list of pairs
+  \item Notice how some functions do not take any child content
+  \item `meta` and `link` in HTML are empty elements
+  \item In this way, Lucid and the type system help us construct valid HTML
+}
 
 ## Rendering Lucid with Scotty
 
 ``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=lucid-handler dedent=2}
 ```
 
+\notelist{
+  \item We can render Lucid in a handler like this
+}
+
 ## Result
 
 ![](../../src/lucid-hello.png){width=75%}
 
+\notelist{
+  \item Looking at the result in a web browser, we can inspect the rendered HTML
+}
+
 ## Side Effects in Scotty
 
-* So far we haven't done more than sending HTML responses
-* We want to do IO, e.g. talk to a database
-* IO can be done in Scotty handlers using `liftIO`
+* We need more than sending HTML responses
+* We want to do IO:
+    - Database queries
+    - Logging
+    - External service calls
+* IO in Scotty handlers using `liftIO`
+
+\notelist{
+  \item So far, we have only sent HTML over the wire
+  \item We most likely need side-effects to do something useful
+  \item (read list)
+  \item We use `liftIO` in Scotty handlers to do IO
+}
 
 ## IO in Scotty
 
-* As an example, say we have this definition:
+* Given these definitions:
 
     ``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=addNewComment}
     ```
-* We can use it in a handler:
+* We can \textit{lift} the IO action into a handler:
 
     ``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=post-handler dedent=2}
     ```
+
+\notelist{
+  \item Let's look at an example of using `liftIO`
+  \item Given these definitions... (explain rest)
+}
 
 
 ## Starting with Scotty
@@ -303,6 +394,12 @@ get "/greet-with-template/:who" $ do
     - Persistence
 * Have a look at Spock\fnote{\url{https://www.spock.li}} for more features
 
+\notelist{
+  \item I recommend starting out with Scotty if you're new to Haskell web development
+  \item Once your applications grows, you will probably need to bring in libraries
+  \item For a slightly larger feature set, and type-safe routing, have a look at Scotty
+}
+
 # Yesod
 
 ## Yesod
@@ -312,6 +409,14 @@ get "/greet-with-template/:who" $ do
     - Batteries included
     - Still very modular
 * Also runs on WAI
+
+\notelist {
+  \item Yesod can be called a "one-stop shop" for Haskell web development
+  \item It is a framework with many batteries included
+  \item Still, it is implemented to be modular
+  \item Things are there by default, but you can swap them out if you need
+  \item Yesod runs on WAI using the Warp server
+}
 
 ## Batteries Included with Yesod
 
