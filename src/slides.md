@@ -3,9 +3,10 @@ title: Fast and Fearless Evolution of Server-Side Web Applications
 author: Oskar Wickström
 date: |
   \includegraphics[width=3cm]{../../src/mpowered.png}
-
 theme: Boadilla
-classoption: dvipsnames
+classoption:
+  - dvipsnames
+  - aspectratio=169
 ---
 
 ## Outline
@@ -228,8 +229,6 @@ classoption: dvipsnames
 ## HTML Templates
 
 ``` {.haskell}
-let bootstrapCss = "https://maxcdn.bootstrapcdn.com/..."
-
 get "/greet-with-template/:who" $ do
   who <- param "who"
   html $
@@ -246,8 +245,7 @@ get "/greet-with-template/:who" $ do
        \     <h1>Hello, " <> who <> "!</h1>\
        \  </div>\
        \</body>\
-       \</html>\
-       \"
+       \</html>"
 ```
 
 \notelist{
@@ -260,15 +258,13 @@ get "/greet-with-template/:who" $ do
 
 ## HTML Template Error!
 
-\begin{textblock*}{0cm}(2.5cm,4.6cm)
+\begin{textblock*}{0cm}(2.5cm,4.0cm)
 \begin{tikzpicture}
 \node at(0, 0) [draw, stringcolor,line width=3pt,ellipse, minimum width=80pt, minimum height=20pt]{};
 \end{tikzpicture}
 \end{textblock*}
 
 ``` {.haskell}
-let bootstrapCss = "https://maxcdn.bootstrapcdn.com/..."
-
 get "/greet-with-template/:who" $ do
   who <- param "who"
   html $
@@ -285,8 +281,7 @@ get "/greet-with-template/:who" $ do
        \     <h1>Hello, " <> who <> "!</h1>\
        \  </div>\
        \</body>\
-       \</html>\
-       \"
+       \</html>"
 ```
 
 \notelist{
@@ -397,7 +392,7 @@ get "/greet-with-template/:who" $ do
 \notelist{
   \item I recommend starting out with Scotty if you're new to Haskell web development
   \item Once your applications grows, you will probably need to bring in libraries
-  \item For a slightly larger feature set, and type-safe routing, have a look at Scotty
+  \item For a slightly larger feature set, and type-safe routing, have a look at Spock
 }
 
 # Yesod
@@ -420,17 +415,36 @@ get "/greet-with-template/:who" $ do
 
 ## Batteries Included with Yesod
 
-* Type-safe routing
-* External templates for HTML, CSS, and Javascript
-* Widgets
-* Forms
-* Sessions
-* Integration with Persistent
-* Authentication and Authorization
-* Internationalization
-* Logging
-* Configuration
-* Auto-reloading web server
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.5\textwidth}
+    \begin{minipage}{\textwidth}
+      \begin{itemize}
+        \item Type-safe routing
+        \item External templates for:
+          \begin{itemize}
+            \item HTML
+            \item CSS
+            \item Javascript (and TypeScript)
+          \end{itemize}
+        \item Widgets
+        \item Forms
+        \item Sessions
+      \end{itemize}
+    \end{minipage}
+  \end{column}
+  \begin{column}{.5\textwidth}
+    \begin{minipage}{\textwidth}
+      \begin{itemize}
+        \item Integration with Persistent
+        \item Authentication and Authorization
+        \item Internationalization
+        \item Logging
+        \item Configuration
+        \item Auto-reloading web server
+      \end{itemize}
+    \end{minipage}
+  \end{column}
+\end{columns}
 
 ## Getting Started
 
@@ -443,8 +457,7 @@ get "/greet-with-template/:who" $ do
     - Getting something done!
 * Over time, you'll understand the scaffolding
 * Use the auto-reloading web server
-    - Install `yesod-bin`
-    - Run `yesod devel`
+    - Install `yesod-bin`, run `yesod devel`
 
 ## Routes Configuration
 
@@ -638,7 +651,7 @@ Content-Type: text/html
 <h1>Airship Webmachines!</h1><p>Lorem ipsum...</p>
 ```
 
-## Overrides
+## Airship Overrides
 
 ```{.changelog}
 allowMissingPost           lastModified

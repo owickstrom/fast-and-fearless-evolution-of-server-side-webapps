@@ -47,6 +47,8 @@ renderPost post =
   , "</p>"
   ]
 
+response404 = escapedResponse "Not found!"
+
 postResource :: Resource IO
 postResource =
   defaultResource
@@ -60,15 +62,14 @@ postResource =
       routingParam "postId" >>= postExists
 -- end snippet resourceExists
 -- start snippet contentTypesProvided
-  , contentTypesProvided = do
-      result <- routingParam "postId" >>= getPost
-      case result of
-        Just post -> do
-          let htmlResponse =
-                return (textResponse (renderPost post))
-          return [("text/html", htmlResponse)]
-        Nothing ->
-          return []
+  , contentTypesProvided =
+    let htmlResponse (Just post) =
+          return (textResponse (renderPost post))
+        htmlResponse Nothing =
+          return response404
+    in return [("text/html", routingParam "postId"
+                             >>= getPost
+                             >>= htmlResponse)]
 -- end snippet contentTypesProvided
   }
 
@@ -81,17 +82,20 @@ appRoutes static = do
 
 main :: IO ()
 main = do
-    static <- staticResource Cache "assets"
-    let port = 3000
-        host = "127.0.0.1"
-        settings = setPort port (setHost host defaultSettings)
-        routes = appRoutes static
-        config = defaultAirshipConfig
-                 & includeTraceHeader .~ OmitHeader
-                 & includeQuipHeader .~ OmitHeader
-    putStrLn "Listening on port 3000"
-    runSettings settings (resourceToWai config routes errors)
-    where
-        errors =
-          let response404 = escapedResponse "Not found!"
-          in M.singleton HTTP.status404 [("text/html", return response404)]
+  static <- staticResource Cache "assets"
+  let port = 3000
+      host = "127.0.0.1"
+      settings = setPort port (setHost host defaultSettings)
+      routes = appRoutes static
+      config =
+        defaultAirshipConfig & includeTraceHeader .~
+        OmitHeader &
+        includeQuipHeader .~
+        OmitHeader
+  putStrLn "Listening on port 3000"
+  runSettings settings (resourceToWai config routes errors)
+  where
+    errors =
+      M.singleton
+        HTTP.status404
+        [("text/html", return response404)]
