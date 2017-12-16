@@ -369,7 +369,7 @@ get "/greet-with-template/:who" $ do
     ```
 * We can \textit{lift} the IO action into a handler:
 
-    ``` {.haskell include=src/listings/scotty-demo/src/Scotty.hs snippet=post-handler dedent=2}
+    ``` {.haskell include=src/listings/scotty-demo/src/Scotty.hs snippet=article-handler dedent=2}
     ```
 
 \notelist{
@@ -476,12 +476,12 @@ get "/greet-with-template/:who" $ do
 
 ## Routing with Path Pieces
 
-``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=get-post-handler}
+``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=get-article-handler}
 ```
 
-## Post Hamlet Template
+## Article Hamlet Template
 
-``` {.hamlet include=src/listings/yesod-demo/templates/post.hamlet}
+``` {.hamlet include=src/listings/yesod-demo/templates/article.hamlet}
 ```
 
 ## Widgets
@@ -490,16 +490,16 @@ get "/greet-with-template/:who" $ do
 * We used widgets in handlers:
 
 	```{.haskell}
-  $(widgetFile "post")
+  $(widgetFile "article")
 	```
 
 * Yesod tries to find matching widget files:
 
 	```{.changelog}
-	templates/post.hamlet
-	templates/post.cassius
-	templates/post.lucius
-	templates/post.julius
+	templates/article.hamlet
+	templates/article.cassius
+	templates/article.lucius
+	templates/article.julius
 	```
 
 * Can refer to bindings in Haskell code
@@ -511,7 +511,7 @@ get "/greet-with-template/:who" $ do
 
 ## Lucius (CSS Templates)
 
-``` {.css include=src/listings/yesod-demo/templates/post.lucius}
+``` {.css include=src/listings/yesod-demo/templates/article.lucius}
 ```
 
 \notelist {
@@ -528,12 +528,12 @@ get "/greet-with-template/:who" $ do
   \item Using a web browser, the home page looks like this
 }
 
-## Post Page Result
+## Article Page Result
 
-![](../../src/yesod-post.png){width=75%}
+![](../../src/yesod-article.png){width=75%}
 
 \notelist {
-  \item And the post page now has comments rendered
+  \item And the article page now has comments rendered
 }
 
 ## Yesod Forms
@@ -549,12 +549,12 @@ get "/greet-with-template/:who" $ do
 
 ## Rendering a Form
 
-``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=get-post-with-form-handler}
+``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=get-article-with-form-handler}
 ```
 
 ## Parsing and Validating the Form
 
-``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=post-comment-handler}
+``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=article-comment-handler}
 ```
 
 ## Comment Form Result
@@ -584,8 +584,8 @@ get "/greet-with-template/:who" $ do
 ## Defining Resources
 
 ``` {.haskell}
-postResource :: Resource IO
-postResource =
+articleResource :: Resource IO
+articleResource =
   defaultResource
   {
 	-- overrides ...
@@ -634,7 +634,7 @@ Not found!
 ## 405 Method Not Allowed
 
 ``` bash
-$ curl -i -X PUT 'localhost:3000/posts/1'
+$ curl -i -X PUT 'localhost:3000/articles/1'
 HTTP/1.1 405 Method Not Allowed
 Transfer-Encoding: chunked
 Date: Tue, 12 Dec 2017 15:44:21 GMT
@@ -645,7 +645,7 @@ Allow: GET,HEAD,POST
 ## 406 Not Acceptable
 
 ``` bash
-$ curl -i -H 'Accept: text/plain' 'localhost:3000/posts/1'
+$ curl -i -H 'Accept: text/plain' 'localhost:3000/articles/1'
 HTTP/1.1 406 Not Acceptable
 Transfer-Encoding: chunked
 Date: Tue, 12 Dec 2017 15:48:27 GMT
@@ -655,7 +655,7 @@ Server: Warp/3.2.13
 ## 200 OK
 
 ``` bash
-$ curl -i 'localhost:3000/posts/1'
+$ curl -i 'localhost:3000/articles/1'
 HTTP/1.1 200 OK
 Transfer-Encoding: chunked
 Date: Tue, 12 Dec 2017 15:45:29 GMT

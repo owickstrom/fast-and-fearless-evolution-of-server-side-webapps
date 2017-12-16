@@ -43,7 +43,7 @@ import           System.Log.FastLogger                (defaultBufSize,
 
 import           Handler.Common
 import           Handler.Home
-import           Post
+import           Article
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the
@@ -66,24 +66,24 @@ makeFoundation appSettings
        then staticDevel
        else static)
       (appStaticDir appSettings)
-  let appPosts =
+  let appArticles =
         HM.fromList
-        [ (postId p, p)
-        | p <-
-            [ Post
-                (PostId "fast-and-fearless")
+        [ (articleId a, a)
+        | a <-
+            [ Article
+                (ArticleId "fast-and-fearless")
                 "Fast and Fearless Evolution of Server-Side Web Applications"
                 "Lorem ipsum dolor sit amet..."
-            , Post
-                (PostId "introducing-yesod")
+            , Article
+                (ArticleId "introducing-yesod")
                 "Introducing Yesod"
                 "Lorem ipsum dolor sit amet..."
             ]
         ]
-  appPostComments <- newMVar $
+  appArticleComments <- newMVar $
         HM.fromList
-        [ (PostId "fast-and-fearless", [Comment "Alice" "This was nice.", Comment "Bob" "Whoa!"])
-        , (PostId "introducing-yesod", [Comment "Carol" "Wonderful post! Keep them coming.", Comment "Mallory" "I have have opinions. You suck."])
+        [ (ArticleId "fast-and-fearless", [Comment "Alice" "This was nice.", Comment "Bob" "Whoa!"])
+        , (ArticleId "introducing-yesod", [Comment "Carol" "Wonderful post! Keep them coming.", Comment "Mallory" "I have have opinions. You suck."])
         ]
     -- Return the foundation
   return App {..}

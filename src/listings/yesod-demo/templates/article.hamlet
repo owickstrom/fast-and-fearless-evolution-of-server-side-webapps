@@ -1,5 +1,5 @@
-<h1>#{postTitle post}
-<p>#{postContent post}
+<h1>#{articleTitle article}
+<p>#{articleContent article}
 
 <div .comments>
   <h2>Comments

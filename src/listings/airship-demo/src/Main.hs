@@ -14,7 +14,7 @@ import qualified Network.HTTP.Types       as HTTP
 import           Network.Wai.Handler.Warp (defaultSettings, runSettings,
                                            setHost, setPort)
 
-data Post = Post { postTitle :: Text, postContents :: Text }
+data Article = Article { articleTitle :: Text, articleContents :: Text }
 
 routingParam :: Monad m => Text -> Webmachine m Text
 routingParam t = do
@@ -24,33 +24,33 @@ routingParam t = do
 textResponse = ResponseBuilder . fromByteString . TE.encodeUtf8
 
 -- Bogus implementation.
-getPost :: Text -> Webmachine IO (Maybe Post)
-getPost _ =
+getArticle :: Text -> Webmachine IO (Maybe Article)
+getArticle _ =
   return $
-    Just Post
-    { postTitle = "Airship Webmachines!"
-    , postContents = "Lorem ipsum..."
+    Just Article
+    { articleTitle = "Airship Webmachines!"
+    , articleContents = "Lorem ipsum..."
     }
 
 -- Bogus implementation.
-postExists :: Text -> Webmachine IO Bool
-postExists _ = return True
+articleExists :: Text -> Webmachine IO Bool
+articleExists _ = return True
 
-renderPost :: Post -> Text
-renderPost post =
+renderArticle :: Article -> Text
+renderArticle article =
   mconcat
   [ "<h1>"
-  , postTitle post
+  , articleTitle article
   , "</h1>"
   , "<p>"
-  , postContents post
+  , articleContents article
   , "</p>"
   ]
 
 response404 = escapedResponse "Not found!"
 
-postResource :: Resource IO
-postResource =
+articleResource :: Resource IO
+articleResource =
   defaultResource
   {
 -- start snippet allowedMethods
@@ -59,16 +59,16 @@ postResource =
 -- end snippet allowedMethods
 -- start snippet resourceExists
   , resourceExists =
-      routingParam "postId" >>= postExists
+      routingParam "articleId" >>= articleExists
 -- end snippet resourceExists
 -- start snippet contentTypesProvided
   , contentTypesProvided =
-    let htmlResponse (Just post) =
-          return (textResponse (renderPost post))
+    let htmlResponse (Just article) =
+          return (textResponse (renderArticle article))
         htmlResponse Nothing =
           return response404
-    in return [("text/html", routingParam "postId"
-                             >>= getPost
+    in return [("text/html", routingParam "articleId"
+                             >>= getArticle
                              >>= htmlResponse)]
 -- end snippet contentTypesProvided
   }
@@ -76,8 +76,8 @@ postResource =
 -- start snippet app-routes
 appRoutes :: Resource IO -> RoutingSpec IO ()
 appRoutes static = do
-  "posts" </> var "postId" #> postResource
-  "static" </> star        #> static
+  "articles" </> var "articleId" #> articleResource
+  "static"   </> star            #> static
 -- end snippet app-routes
 
 main :: IO ()

@@ -67,7 +67,7 @@ $(SLIDES_NO_NOTES): target/slides-no-notes.tex
 
 programs:
 	cd src/listings/scotty-demo && cabal new-build
-	cd src/listings/yesod-demo && cabal new-build
+	cd src/listings/yesod-demo && stack build
 	cd src/listings/airship-demo && cabal new-build
 
 clean:

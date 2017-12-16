@@ -1,9 +1,9 @@
-{-# LANGUAGE ViewPatterns          #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE NoImplicitPrelude     #-}
 {-# LANGUAGE OverloadedStrings     #-}
 {-# LANGUAGE TemplateHaskell       #-}
 {-# LANGUAGE TypeFamilies          #-}
+{-# LANGUAGE ViewPatterns          #-}
 
 module Foundation where
 
@@ -17,30 +17,30 @@ import           Yesod.Core.Types     (Logger)
 import qualified Yesod.Core.Unsafe    as Unsafe
 import           Yesod.Default.Util   (addStaticContentExternal)
 
-import           Post
+import           Article
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
 -- starts running, such as database connections. Every handler will have
 -- access to the data present here.
 data App = App
-  { appSettings     :: AppSettings
-  , appStatic       :: Static -- ^ Settings for static file serving.
-  , appHttpManager  :: Manager
-  , appLogger       :: Logger
-  , appPosts        :: HashMap PostId Post
-  , appPostComments :: MVar (HashMap PostId [Comment])
+  { appSettings        :: AppSettings
+  , appStatic          :: Static -- ^ Settings for static file serving.
+  , appHttpManager     :: Manager
+  , appLogger          :: Logger
+  , appArticles        :: HashMap ArticleId Article
+  , appArticleComments :: MVar (HashMap ArticleId [Comment])
   }
 
 data MenuItem = MenuItem
-    { menuItemLabel          :: Text
-    , menuItemRoute          :: Route App
-    , menuItemAccessCallback :: Bool
-    }
+  { menuItemLabel          :: Text
+  , menuItemRoute          :: Route App
+  , menuItemAccessCallback :: Bool
+  }
 
 data MenuTypes
-    = NavbarLeft MenuItem
-    | NavbarRight MenuItem
+  = NavbarLeft MenuItem
+  | NavbarRight MenuItem
 
 -- This is where we define all of the routes in our application. For a full
 -- explanation of the syntax, please see:
@@ -61,20 +61,22 @@ type Form x = Html -> MForm (HandlerT App IO) (FormResult x, Widget)
 
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
-instance Yesod App where
+instance Yesod App
     -- Controls the base of generated URLs. For more information on modifying,
     -- see: https://github.com/yesodweb/yesod/wiki/Overriding-approot
-    approot = ApprootRequest $ \app req ->
-        case appRoot $ appSettings app of
-            Nothing   -> getApprootText guessApproot app req
-            Just root -> root
-
+                                                                      where
+  approot =
+    ApprootRequest $ \app req ->
+      case appRoot $ appSettings app of
+        Nothing   -> getApprootText guessApproot app req
+        Just root -> root
     -- Store session data on the client in encrypted cookies,
     -- default session idle timeout is 120 minutes
-    makeSessionBackend _ = Just <$> defaultClientSessionBackend
-        120    -- timeout in minutes
-        "config/client_session_key.aes"
-
+  makeSessionBackend _ =
+    Just <$>
+    defaultClientSessionBackend
+      120 -- timeout in minutes
+      "config/client_session_key.aes"
     -- Yesod Middleware allows you to run code before and after each handler function.
     -- The defaultYesodMiddleware adds the response header "Vary: Accept, Accept-Language" and performs authorization checks.
     -- Some users may also want to add the defaultCsrfMiddleware, which:
@@ -82,88 +84,79 @@ instance Yesod App where
     --   b) Validates that incoming write requests include that token in either a header or POST parameter.
     -- To add it, chain it together with the defaultMiddleware: yesodMiddleware = defaultYesodMiddleware . defaultCsrfMiddleware
     -- For details, see the CSRF documentation in the Yesod.Core.Handler module of the yesod-core package.
-    yesodMiddleware = defaultYesodMiddleware
-
-    defaultLayout widget = do
-        master <- getYesod
-        mmsg <- getMessage
-
-        mcurrentRoute <- getCurrentRoute
-
+  yesodMiddleware = defaultYesodMiddleware
+  defaultLayout widget = do
+    master <- getYesod
+    mmsg <- getMessage
+    mcurrentRoute <- getCurrentRoute
         -- Define the menu items of the header.
-        let menuItems =
-                [ NavbarLeft $ MenuItem
-                    { menuItemLabel = "Home"
-                    , menuItemRoute = HomeR
-                    , menuItemAccessCallback = True
-                    }
-                ]
-
-        let navbarLeftMenuItems = [x | NavbarLeft x <- menuItems]
-        let navbarRightMenuItems = [x | NavbarRight x <- menuItems]
-
-        let navbarLeftFilteredMenuItems = [x | x <- navbarLeftMenuItems, menuItemAccessCallback x]
-        let navbarRightFilteredMenuItems = [x | x <- navbarRightMenuItems, menuItemAccessCallback x]
-
+    let menuItems =
+          [ NavbarLeft $
+            MenuItem
+            { menuItemLabel = "Home"
+            , menuItemRoute = HomeR
+            , menuItemAccessCallback = True
+            }
+          ]
+    let navbarLeftMenuItems = [x | NavbarLeft x <- menuItems]
+    let navbarRightMenuItems = [x | NavbarRight x <- menuItems]
+    let navbarLeftFilteredMenuItems =
+          [x | x <- navbarLeftMenuItems, menuItemAccessCallback x]
+    let navbarRightFilteredMenuItems =
+          [x | x <- navbarRightMenuItems, menuItemAccessCallback x]
         -- We break up the default layout into two components:
         -- default-layout is the contents of the body tag, and
         -- default-layout-wrapper is the entire page. Since the final
         -- value passed to hamletToRepHtml cannot be a widget, this allows
         -- you to use normal widget features in default-layout.
-
-        pc <- widgetToPageContent $ do
-            addStylesheet $ StaticR css_bootstrap_css
-            $(widgetFile "default-layout")
-        withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
-
+    pc <-
+      widgetToPageContent $ do
+        addStylesheet $ StaticR css_bootstrap_css
+        $(widgetFile "default-layout")
+    withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
     -- Routes not requiring authenitcation.
-    isAuthorized FaviconR _ = return Authorized
-    isAuthorized RobotsR _  = return Authorized
+  isAuthorized FaviconR _ = return Authorized
+  isAuthorized RobotsR _  = return Authorized
     -- Default to Authorized for now.
-    isAuthorized _ _        = return Authorized
-
+  isAuthorized _ _        = return Authorized
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
     -- expiration dates to be set far in the future without worry of
     -- users receiving stale content.
-    addStaticContent ext mime content = do
-        master <- getYesod
-        let staticDir = appStaticDir $ appSettings master
-        addStaticContentExternal
-            minifym
-            genFileName
-            staticDir
-            (StaticR . flip StaticRoute [])
-            ext
-            mime
-            content
-      where
+  addStaticContent ext mime content = do
+    master <- getYesod
+    let staticDir = appStaticDir $ appSettings master
+    addStaticContentExternal
+      minifym
+      genFileName
+      staticDir
+      (StaticR . flip StaticRoute [])
+      ext
+      mime
+      content
         -- Generate a unique filename based on the content itself
-        genFileName lbs = "autogen-" ++ base64md5 lbs
-
+    where
+      genFileName lbs = "autogen-" ++ base64md5 lbs
     -- What messages should be logged. The following includes all messages when
     -- in development, and warnings and errors in production.
-    shouldLog app _source level =
-        appShouldLogAll (appSettings app)
-            || level == LevelWarn
-            || level == LevelError
-
-    makeLogger = return . appLogger
+  shouldLog app _source level =
+    appShouldLogAll (appSettings app) ||
+    level == LevelWarn || level == LevelError
+  makeLogger = return . appLogger
 
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.
 instance RenderMessage App FormMessage where
-    renderMessage _ _ = defaultFormMessage
+  renderMessage _ _ = defaultFormMessage
 
 -- Useful when writing code that is re-usable outside of the Handler context.
 -- An example is background jobs that send email.
 -- This can also be useful for writing code that works across multiple Yesod applications.
 instance HasHttpManager App where
-    getHttpManager = appHttpManager
+  getHttpManager = appHttpManager
 
 unsafeHandler :: App -> Handler a -> IO a
 unsafeHandler = Unsafe.fakeHandlerGetLogger appLogger
-
 -- Note: Some functionality previously present in the scaffolding has been
 -- moved to documentation in the Wiki. Following are some hopefully helpful
 -- links:

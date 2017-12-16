@@ -9,11 +9,11 @@
 -- start snippet routes
 / HomeR GET
 
-/posts/#PostId PostR GET
+/articles/#ArticleId ArticleR GET
 -- end snippet routes
 
 -- start snippet routes-2
-/posts/#PostId/comments PostCommentsR POST
+/articles/#ArticleId/comments ArticleCommentsR POST
 -- end snippet routes-2
 
-/posts/#PostId/with-form PostWithFormR GET
+/articles/#ArticleId/with-form ArticleWithFormR GET

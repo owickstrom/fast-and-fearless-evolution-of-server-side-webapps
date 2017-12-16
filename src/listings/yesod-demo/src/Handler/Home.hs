@@ -9,34 +9,34 @@ module Handler.Home where
 import           Import
 
 import           Data.HashMap.Strict   as HM
-import           Text.Blaze.Html5      as Html
+import           qualified Text.Blaze.Html5      as Html
 import           Yesod.Form.Bootstrap3
 
-import           Post
+import           Article
 
-allPosts :: Handler [Post]
-allPosts =
-  HM.elems . appPosts <$> getYesod
+allArticles :: Handler [Article]
+allArticles =
+  HM.elems . appArticles <$> getYesod
 
-getPost :: PostId -> Handler Post
-getPost id' = do
-  posts <- appPosts <$> getYesod
-  maybe notFound pure (HM.lookup id' posts)
+getArticle :: ArticleId -> Handler Article
+getArticle id' = do
+  articles <- appArticles <$> getYesod
+  maybe notFound pure (HM.lookup id' articles)
 
-getPostComments :: PostId -> Handler [Comment]
-getPostComments id' = do
-  postsVar <- appPostComments <$> getYesod
+getArticleComments :: ArticleId -> Handler [Comment]
+getArticleComments id' = do
+  postsVar <- appArticleComments <$> getYesod
   HM.lookupDefault [] id' <$> readMVar postsVar
 
-addPostComment :: PostId -> Comment -> Handler ()
-addPostComment id' comment = do
-  postsVar <- appPostComments <$> getYesod
+addArticleComment :: ArticleId -> Comment -> Handler ()
+addArticleComment id' comment = do
+  postsVar <- appArticleComments <$> getYesod
   modifyMVar_ postsVar (return . HM.insertWith (<>) id' [comment])
 
 -- start snippet get-home-handler
 getHomeR :: Handler Html
 getHomeR = do
-  posts <- allPosts
+  articles <- allArticles
   defaultLayout $ do
     setTitle "My Blog"
     $(widgetFile "homepage")
@@ -57,45 +57,45 @@ commentForm =
 renderForm :: FormRender Handler a
 renderForm = renderBootstrap3 BootstrapBasicForm
 
--- start snippet get-post-handler
-getPostR :: PostId -> Handler Html
-getPostR id' = do
-  post <- getPost id'
-  comments <- getPostComments id'
+-- start snippet get-article-handler
+getArticleR :: ArticleId -> Handler Html
+getArticleR id' = do
+  article <- getArticle id'
+  comments <- getArticleComments id'
   defaultLayout $ do
-    setTitle (Html.text (postTitle post))
-    $(widgetFile "post")
--- end snippet get-post-handler
+    setTitle (Html.text (articleTitle article))
+    $(widgetFile "article")
+-- end snippet get-article-handler
 
--- start snippet get-post-with-form-handler
-getPostWithFormR :: PostId -> Handler Html
-getPostWithFormR id' = do
-  post <- getPost id'
-  comments <- getPostComments id'
+-- start snippet get-article-with-form-handler
+getArticleWithFormR :: ArticleId -> Handler Html
+getArticleWithFormR id' = do
+  article <- getArticle id'
+  comments <- getArticleComments id'
 
   (commentFormWidget, commentFormEnc) <-
     generateFormPost (renderForm commentForm)
 
   defaultLayout $ do
-    setTitle (Html.text (postTitle post))
-    $(widgetFile "post-with-form")
--- end snippet get-post-with-form-handler
+    setTitle (Html.text (articleTitle article))
+    $(widgetFile "article-with-form")
+-- end snippet get-article-with-form-handler
 
--- start snippet post-comment-handler
-postPostCommentsR :: PostId -> Handler Html
-postPostCommentsR id' = do
-  post <- getPost id'
-  comments <- getPostComments id'
+-- start snippet article-comment-handler
+postArticleCommentsR :: ArticleId -> Handler Html
+postArticleCommentsR id' = do
+  article <- getArticle id'
+  comments <- getArticleComments id'
 
   ((result, commentFormWidget), commentFormEnc) <-
     runFormPost (renderForm commentForm)
 
   case result of
     FormSuccess comment -> do
-      addPostComment id' comment
-      redirect (PostWithFormR id')
+      addArticleComment id' comment
+      redirect (ArticleWithFormR id')
     _ ->
       defaultLayout $ do
-        setTitle (Html.text (postTitle post))
-        $(widgetFile "post-with-form")
--- end snippet post-comment-handler
+        setTitle (Html.text (articleTitle article))
+        $(widgetFile "article-with-form")
+-- end snippet article-comment-handler

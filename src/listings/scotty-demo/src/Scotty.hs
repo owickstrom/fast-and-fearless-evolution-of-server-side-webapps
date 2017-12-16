@@ -20,7 +20,7 @@ app = do
 -- end snippet app
   messyHtml
   lucidHandler
-  postHandler
+  articleHandler
 
 -- start snippet lucid-template
 homeView :: Text -> Html ()
@@ -47,22 +47,22 @@ lucidHandler =
 -- end snippet lucid-handler
 
 -- start snippet addNewComment
-type PostId = Text
+type ArticleId = Text
 
-addNewComment :: PostId -> Text -> IO ()
+addNewComment :: ArticleId -> Text -> IO ()
 --- end snippet addNewComment
 addNewComment _ _ = return () -- only for slides
 
-postHandler :: ScottyM ()
-postHandler =
-  -- start snippet post-handler
-  post "/posts/:post-id/comments" $ do
-    postId <- param "post-id"
+articleHandler :: ScottyM ()
+articleHandler =
+  -- start snippet article-handler
+  post "/articles/:article-id/comments" $ do
+    articleId <- param "article-id"
     -- accepts a form or query parameter "comment"
     comment <- param "comment"
-    liftIO (addNewComment postId comment)
-    redirect ("/posts/" <> postId)
-  -- end snippet post-handler
+    liftIO (addNewComment articleId comment)
+    redirect ("/articles/" <> articleId)
+  -- end snippet article-handler
 
 -- start snippet main
 main :: IO ()

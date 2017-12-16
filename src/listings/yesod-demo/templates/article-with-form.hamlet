@@ -1,5 +1,5 @@
-<h1>#{postTitle post}
-<p>#{postContent post}
+<h1>#{articleTitle article}
+<p>#{articleContent article}
 
 <div .comments>
   <h2>Comments
@@ -14,7 +14,7 @@ $# start snippet new-comment
   <h3>Add Comment
   <form role=form
         method=post
-        action=@{PostCommentsR id'}
+        action=@{ArticleCommentsR id'}
         enctype=#{commentFormEnc}>
    ^{commentFormWidget}
    <button type="submit" .btn .btn-default>Submit

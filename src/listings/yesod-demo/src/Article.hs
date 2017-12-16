@@ -1,24 +1,24 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-module Post where
+module Article where
 
 import           Import.NoFoundation
 
 import qualified Data.Text           as T
 
-newtype PostId =
-  PostId Text
+newtype ArticleId =
+  ArticleId Text
   deriving (Show, Read, Eq, Ord, Hashable)
 
-instance PathPiece PostId where
-  toPathPiece (PostId t) = t
+instance PathPiece ArticleId where
+  toPathPiece (ArticleId t) = t
   fromPathPiece t
-    | not (T.null t) = Just (PostId t)
+    | not (T.null t) = Just (ArticleId t)
     | otherwise = Nothing
 
-data Post = Post
-  { postId :: PostId
-  , postTitle :: Text
-  , postContent :: Text
+data Article = Article
+  { articleId :: ArticleId
+  , articleTitle :: Text
+  , articleContent :: Text
   }
 
 data Comment = Comment

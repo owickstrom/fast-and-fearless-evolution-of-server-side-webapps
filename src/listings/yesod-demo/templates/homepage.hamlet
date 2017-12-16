@@ -1,5 +1,5 @@
 <h1>My Blog
 <ul>
-  $forall post <- posts
+  $forall article <- articles
     <li>
-      <a href=@{PostR (postId post)}>#{postTitle post}
+      <a href=@{ArticleR (articleId article)}>#{articleTitle article}
