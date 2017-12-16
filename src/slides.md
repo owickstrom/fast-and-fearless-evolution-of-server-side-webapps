@@ -514,13 +514,27 @@ get "/greet-with-template/:who" $ do
 ``` {.css include=src/listings/yesod-demo/templates/post.lucius}
 ```
 
+\notelist {
+  \item Here's some simple styling of comments
+  \item This is a Lucius file
+  \item You can interpolate Haskell values, but I'm not doing that here
+}
+
 ## Home Page Result
 
 ![](../../src/yesod-home.png){width=75%}
 
+\notelist {
+  \item Using a web browser, the home page looks like this
+}
+
 ## Post Page Result
 
 ![](../../src/yesod-post.png){width=75%}
+
+\notelist {
+  \item And the post page now has comments rendered
+}
 
 ## Yesod Forms
 
