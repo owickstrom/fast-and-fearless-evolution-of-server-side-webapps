@@ -542,14 +542,45 @@ get "/greet-with-template/:who" $ do
 * Use the same structure for rendering, parsing, and validation
 * There are various renderers available
 
+\notelist {
+  \item The next powerful feature of Yesod that I want to show is forms
+  \item (read list)
+}
+
 ## Comment Form
 
 ``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=comment-form}
 ```
 
+\notelist {
+  \item This is a definition of a Yesod Form
+  \item It is a form for Comments
+  \item It has a text field for the commenter name
+  \item And it has a text area for the comment contents
+  \item This is a single definition for both rendering the form, and parsing incoming form data
+}
+
 ## Rendering a Form
 
 ``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=get-article-with-form-handler}
+```
+
+\notelist {
+  \item Here's how we use the form in a handler
+  \item First, we get the article and its comments
+  \item Then, we use "generateFormPost"
+  \item We get a widget back, that is included in the HTML template below
+}
+
+## Including The Form Widget
+
+``` {.hamlet}
+<form role=form
+      method=post
+      action=@{ArticleCommentsR id'}
+      enctype=#{commentFormEnc}>
+  ^{commentFormWidget}
+  <button type="submit" .btn .btn-default>Submit
 ```
 
 ## Parsing and Validating the Form
@@ -557,9 +588,20 @@ get "/greet-with-template/:who" $ do
 ``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=article-comment-handler}
 ```
 
+\notelist {
+  \item The POST handler uses "runFormPost" to parse the form data, and render a new form
+  \item If it was success in parsing it, we add the comment and redirect back
+  \item Otherwise, we rerender the form
+  \item The neat thing is that Yesod will render validation errors automatically
+}
+
 ## Comment Form Result
 
 ![](../../src/yesod-form.png){width=75%}
+
+\notelist {
+  \item In the browser, we see the rendered form
+}
 
 ## Yesod Recap
 
@@ -675,7 +717,7 @@ contentTypesProvided       movedPermanently
 deleteCompleted            movedTemporarily
 deleteResource             multipleChoices
 entityTooLarge             previouslyExisted
-forbidden                  processPost
+  forbidden                  processPost
 generateETag               resourceExists
 implemented                serviceAvailable
 isAuthorized               uriTooLong
