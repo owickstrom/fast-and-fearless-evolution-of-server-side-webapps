@@ -208,7 +208,7 @@ classoption:
 
 ## Scotty Routing
 
-``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=app}
+``` {.haskell include=src/listings/scotty-demo/src/Scotty.hs snippet=app}
 ```
 
 \notelist{
@@ -218,7 +218,7 @@ classoption:
 
 ## Scotty Server
 
-``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=main}
+``` {.haskell include=src/listings/scotty-demo/src/Scotty.hs snippet=main}
 ```
 
 \notelist{
@@ -315,7 +315,7 @@ get "/greet-with-template/:who" $ do
 
 ## Lucid HTML Template
 
-``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=lucid-template}
+``` {.haskell include=src/listings/scotty-demo/src/Scotty.hs snippet=lucid-template}
 ```
 
 \notelist{
@@ -330,7 +330,7 @@ get "/greet-with-template/:who" $ do
 
 ## Rendering Lucid with Scotty
 
-``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=lucid-handler dedent=2}
+``` {.haskell include=src/listings/scotty-demo/src/Scotty.hs snippet=lucid-handler dedent=2}
 ```
 
 \notelist{
@@ -365,11 +365,11 @@ get "/greet-with-template/:who" $ do
 
 * Given these definitions:
 
-    ``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=addNewComment}
+    ``` {.haskell include=src/listings/scotty-demo/src/Scotty.hs snippet=addNewComment}
     ```
 * We can \textit{lift} the IO action into a handler:
 
-    ``` {.haskell include=src/listings/haskell-examples/src/Scotty.hs snippet=post-handler dedent=2}
+    ``` {.haskell include=src/listings/scotty-demo/src/Scotty.hs snippet=post-handler dedent=2}
     ```
 
 \notelist{

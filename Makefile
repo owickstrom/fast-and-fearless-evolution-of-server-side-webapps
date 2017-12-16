@@ -8,9 +8,9 @@ SRCS=$(shell find src -name '*.tex') \
 		 src/slides.tex
 IMGS=$(shell find src -name '*.png')
 
-HS_SRCS=$(shell find src/listings/haskell-examples -name '*.hs') \
-				src/listings/haskell-examples/haskell-examples.cabal \
-				src/listings/haskell-examples/stack.yaml
+HS_SRCS=$(shell find src/listings/scotty-demo -name '*.hs') \
+				src/listings/scotty-demo/scotty-demo.cabal \
+				src/listings/scotty-demo/stack.yaml
 
 PANDOC_FLAGS= -t beamer \
 		-f markdown+multiline_tables \
@@ -66,8 +66,9 @@ $(SLIDES_NO_NOTES): target/slides-no-notes.tex
 		slides.tex
 
 programs:
-	cd src/listings/haskell-examples && stack build
-	cd src/listings/yesod-demo && stack build
+	cd src/listings/scotty-demo && cabal new-build
+	cd src/listings/yesod-demo && cabal new-build
+	cd src/listings/airship-demo && cabal new-build
 
 clean:
 	rm -rf target
