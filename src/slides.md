@@ -153,6 +153,14 @@ classoption:
   \end{column}
 \end{columns}
 
+\notelist{
+  \item There are many languages and frameworks in this spirit
+  \item Base your decisions on the underlying patterns and safety guarantees
+  \item This often comes down to: Less power is more power
+  \item As Michael explained this morning, as you can't sneak in side-effects in Haskell, libraries like STM can give strong guarantees
+  \item My examples will use Haskell for that reason
+}
+
 # Writing Web Applications with Haskell
 
 ## Underpinnings
@@ -195,14 +203,14 @@ classoption:
 * Features
     - Routing and parameters
     - Web server setup
-    - Monad transformer
+    - Extensible
 * "Build your own framework"
 
 \notelist{
   \item Inspired by Ruby's Sinatra
   \item It provides routing, parameters, and form parsing
   \item It is easy to get started, setting up a web server
-  \item It builds in ScottyT, a monad transformer, which you can extend
+  \item Scotty is extensible. I'm not going to say it, but it has to do with the M-word.
   \item Scotty is very small, and if you build something bigger, you'll likely have to "build your own framework"
 }
 
@@ -309,7 +317,7 @@ get "/greet-with-template/:who" $ do
   \item Two popular libraries are Blaze and Lucid
   \item For external HTML templating languages, we can use Heist or Hamlet
   \item The external ones are typically written in separate files, but can also be embedded using quasi-quoting
-  \item These languages give is type-safe templates that are composable
+  \item These languages give us type-safe templates that are composable
   \item They help us produce valid HTML
 }
 
@@ -392,6 +400,7 @@ get "/greet-with-template/:who" $ do
 \notelist{
   \item I recommend starting out with Scotty if you're new to Haskell web development
   \item Once your applications grows, you will probably need to bring in libraries
+  \item You might need to bring in ... (read list)
   \item For a slightly larger feature set, and type-safe routing, have a look at Spock
 }
 
@@ -446,6 +455,10 @@ get "/greet-with-template/:who" $ do
   \end{column}
 \end{columns}
 
+\notelist {
+  \item These are some of the features you get ... (read list)
+}
+
 ## Getting Started
 
 * Use a template (see `stack templates`)
@@ -459,25 +472,50 @@ get "/greet-with-template/:who" $ do
 * Use the auto-reloading web server
     - Install `yesod-bin`, run `yesod devel`
 
+\notelist {
+  \item I recommend starting by using a template
+  \item (read list)
+}
+
 ## Routes Configuration
 
 ``` {.changelog include=src/listings/yesod-demo/config/routes snippet=routes}
 ```
+
+\notelist {
+  \item Routes are configured in a separate file
+  \item We define a root path ...
+}
 
 ## A Simple Handler
 
 ``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=get-home-handler}
 ```
 
+\notelist {
+  \item The handler for a route is found by a naming convention
+  \item "HomeR GET" corresponds to the "getHomeR" definition
+}
+
 ## Hamlet Template
 
 ``` {.hamlet include=src/listings/yesod-demo/templates/homepage.hamlet}
 ```
 
+\notelist {
+  \item This is "homepage.hamlet"
+}
+
 ## Routing with Path Pieces
 
 ``` {.haskell include=src/listings/yesod-demo/src/Handler/Home.hs snippet=get-article-handler}
 ```
+
+\notelist {
+  \item Routes with "PathPieces" captured have handlers with arguments
+  \item The route for a particular article captured an "ArticleId" in the routes file
+  \item This handler therefore has an "ArticleId" argument
+}
 
 ## Article Hamlet Template
 
@@ -506,7 +544,8 @@ get "/greet-with-template/:who" $ do
 * Only include small parts, or use external resources
 
 \notelist {
-	\item External resources can be referred with type safe URLs
+  \item Let's have a look at the concept of a "Widget"
+  \item (read list)
 }
 
 ## Lucius (CSS Templates)
@@ -805,7 +844,7 @@ knownContentType
 
 Need to do a single-page app?
 
-* PureScript, Elm, TypeScript
+* PureScript, Elm, etc
 * Consider Haskell for your backend
 * With Servant, you can use `servant-purescript` or `servant-elm`
 
