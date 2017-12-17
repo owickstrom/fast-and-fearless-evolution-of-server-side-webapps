@@ -609,7 +609,19 @@ get "/greet-with-template/:who" $ do
 * We only looked at some core features
 * Worth learning
 
+\notelist{
+  \item To summarize the part on Yesod ...
+  \item Yesod has much of you might need
+  \item You don't have to build your own framework, at least not for some time
+  \item I think it's worth learning if you want to build web apps in Haskell
+  \item But if you're beginning Haskell, start with Scotty or Spock
+}
+
 # Airship
+
+\notelist {
+  \item The last framework we'll look at is Airship
+}
 
 ## Airship
 
@@ -618,10 +630,22 @@ get "/greet-with-template/:who" $ do
 * Override fields in the default resource
 * Tie together resources with routing
 
+\notelist {
+  \item Airship is inspired by Webmachine from Erlang
+  \item It is centered around RESTful resources
+  \item You use the default resource, which does all the sensible defaults
+  \item Then you override methods to implement your resource
+  \item Resources are tied together using a routing DSL (...)
+}
+
 ## Airship Routes
 
 ``` {.haskell include=src/listings/airship-demo/src/Main.hs snippet=app-routes}
 ```
+
+\notelist {
+  \item In this example, we define two routes ...
+}
 
 ## Defining Resources
 
@@ -633,6 +657,10 @@ articleResource =
 	-- overrides ...
   }
 ```
+
+\notelist {
+  \item A resource overrides fields in the default resource
+}
 
 ## resourceExists
 
@@ -647,6 +675,10 @@ articleResource =
 ...
 ```
 
+\notelist {
+  \item This overrides basically answers: is this a 404 Not Found?
+}
+
 ## contentTypesProvided
 
 ``` {.changelog}
@@ -659,6 +691,14 @@ articleResource =
 ``` {.changelog}
 ...
 ```
+
+\notelist {
+  \item This override is a bit more involved
+  \item Here we bind a special function for constructing an HTML response
+  \item Then, in case the content type is text/html, we get the article, and render it
+  \item If it has another content type, based on the Accept header, we do nothing
+  \item Airship handles that for us
+}
 
 ## 404 Not Found
 
@@ -673,6 +713,11 @@ Content-Type: text/html
 Not found!
 ```
 
+\notelist {
+  \item Let's test our server using curl
+  \item Requesting a non-existing resource we get 404 Not Found
+}
+
 ## 405 Method Not Allowed
 
 ``` bash
@@ -684,6 +729,10 @@ Server: Warp/3.2.13
 Allow: GET,HEAD,POST
 ```
 
+\notelist {
+  \item Requesting the article with PUT we get 405 Method Not Allowed
+}
+
 ## 406 Not Acceptable
 
 ``` bash
@@ -693,6 +742,10 @@ Transfer-Encoding: chunked
 Date: Tue, 12 Dec 2017 15:48:27 GMT
 Server: Warp/3.2.13
 ```
+
+\notelist {
+  \item Passing "Accept: text/plain", we get 406 Not Acceptable
+}
 
 ## 200 OK
 
@@ -706,6 +759,10 @@ Content-Type: text/html
 
 <h1>Airship Webmachines!</h1><p>Lorem ipsum...</p>
 ```
+
+\notelist {
+  \item And finally, we can do a GET request and get the HTML
+}
 
 ## Airship Overrides
 
@@ -725,11 +782,22 @@ isConflict                  validContentHeaders
 knownContentType
 ```
 
+\notelist {
+  \item I only showed you two, but there are many more overrides
+}
+
 ## Airship Considerations
 
 * It is more low-level/barebones
 * Again, "build your own framework"
 * Suited for RESTful APIs
+
+\notelist {
+  \item Airship is a bit rough on the edges
+  \item I didn't show you the setup to get it running
+  \item It requires some effort to integrate with other libraries
+  \item But if you're building a RESTful API, Airship might be a great choice!
+}
 
 # Client-Side Technologies
 
@@ -737,17 +805,37 @@ knownContentType
 
 Need to do a single-page app?
 
-* PureScript, Elm, TypeScript, GHCJS, Scala.js, Fable JS, etc
+* PureScript, Elm, TypeScript
 * Consider Haskell for your backend
 * With Servant, you can use `servant-purescript` or `servant-elm`
 
+\notelist {
+  \item If you need to do a single-page app, or a single-page component of a greater system, consider...
+  \item These are in the same spirit, more or less
+  \item Consider Haskell for your backend, even it's only serving JSON
+  \item You can use all the frameworks I've shown to build web APIs
+  \item Also, there is Servant, to get a lot of type-safety in web APIs
+  \item Servant can be integrated with PureScript and Elm to share types
+}
+
 # Summary
+
+\notelist {
+  \item I'd like to end this talk with some key takeaways
+}
 
 ##
 
 \centering{
   \includegraphics[width=4cm]{../../src/brain.png}
   \Large{Evolve software fearlessly using better tools \\ for modeling and communication.}
+}
+
+\notelist {
+  \item Evolve software fearlessly using better tools for modeling and communication.
+  \item Your program is a communication between you, your colleagues, and the computer
+  \item Use tools that support that communication
+  \item Use tools that support \textbf{evolving} your ideas, not only implementing your first idea
 }
 
 ##
@@ -758,6 +846,13 @@ Need to do a single-page app?
   \Large{Spend your complexity budget carefully.}
 }
 
+\notelist {
+  \item Spend your complexity budget carefully.
+  \item Large parts of your web application are of lower value than core business parts
+  \item Reach for simple tools with less risk in those areas
+  \item When needed, use more advanced and complex tools where you get return on investment
+}
+
 ##
 
 \centering{
@@ -766,9 +861,15 @@ Need to do a single-page app?
   \Large{Explore the wonderful world of functional\\and statically typed server-side web.}
 }
 
+\notelist {
+  \item There is so much good stuff in statically typed functional programming
+  \item Combine that with server-side web development and you have a very good toolbox
+  \item Thank you for listening! Here are links to...
+}
+
 ## Links
 
-* Slides and code: ...
+* Slides and code: [github.com/owickstrom/fast-and-fearless-evolution-of-server-side-webapps](https://github.com/owickstrom/fast-and-fearless-evolution-of-server-side-webapps)
 * Website: [https://wickstrom.tech](https://wickstrom.tech)
 * Twitter: [\@owickstrom](https://twitter.com/owickstrom)
 
